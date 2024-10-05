@@ -229,38 +229,24 @@ CMD ["npm", "start"]
 
 ## 2. **Java Application Dockerfile** 
 ```dockerfile
-# Stage 1: Build the Go application
-FROM golang:1.19-alpine AS builder
+# Use an official OpenJDK runtime as a parent image
+FROM openjdk:11-jre-slim
 
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy the go.mod and go.sum files first (for dependency caching)
-COPY go.mod go.sum ./
+# Copy the JAR file to the container
+COPY target/myapp-0.0.1-SNAPSHOT.jar app.jar
 
-# Download dependencies
-RUN go mod download
-
-# Copy the entire application to the container
-COPY . .
-
-# Build the Go app (the output binary is called "myapp")
-RUN go build -o myapp
-
-# Stage 2: Create a lightweight image for running the application
-FROM alpine:latest
-
-# Set the working directory
-WORKDIR /app
-
-# Copy the binary from the builder stage
-COPY --from=builder /app/myapp .
-
-# Expose the port the app runs on
+# Expose the port on which the Spring Boot app listens
 EXPOSE 8080
 
-# Command to run the Go app
-CMD ["./myapp"]
+# Define environment variable
+ENV JAVA_OPTS="-Xmx512m"
+
+# The command to run the Spring Boot app
+ENTRYPOINT ["java", "-jar", "app.jar"]
+
 ```
 
 ## 3. **Golang Application Dockerfile** 

@@ -193,34 +193,110 @@ A Dockerfile defines what will be included in your Docker image. Below are the m
 
 ---
 
-## 🚀 **Example Dockerfile**
-Here’s a complete example of how a Dockerfile might look when all these components are used:
+## 🐳 **Dockerfile Examples for Node.js, Java, and Golang Applications**
+
+This guide provides Dockerfile examples for creating efficient Docker images for **Node.js**, **Java (Spring Boot)**, and **Golang** applications. Each example is optimized for building production-ready containers with best practices.
+
+---
+
+## 1. **Nodejs Application Dockerfile**
 
 ```dockerfile
-# Base image
-FROM python:3.8-slim
+# Use an official Node.js runtime as a base image
+FROM node:16-alpine
 
-# Metadata labels
-LABEL maintainer="youremail@example.com"
-LABEL version="1.0"
-LABEL description="Example Python web app"
+# Set the working directory inside the container
+WORKDIR /usr/src/app
 
-# Set environment variables
-ENV PYTHONUNBUFFERED=1
+# Copy the package.json and package-lock.json files
+COPY package*.json ./
 
-# Set working directory
+# Install dependencies (npm ci ensures a clean install of dependencies)
+RUN npm ci --only=production
+
+# Copy the rest of the application files to the working directory
+COPY . .
+
+# Expose the port the app runs on
+EXPOSE 3000
+
+# Define environment variable
+ENV NODE_ENV=production
+
+# The command to start the Node.js app
+CMD ["npm", "start"]
+```
+
+## 2. **Java Application Dockerfile** 
+```dockerfile
+# Stage 1: Build the Go application
+FROM golang:1.19-alpine AS builder
+
+# Set the working directory inside the container
 WORKDIR /app
 
-# Copy files to the container
-COPY . /app
+# Copy the go.mod and go.sum files first (for dependency caching)
+COPY go.mod go.sum ./
 
-# Install dependencies
-RUN pip install -r requirements.txt
+# Download dependencies
+RUN go mod download
 
-# Expose the application port
-EXPOSE 8000
+# Copy the entire application to the container
+COPY . .
 
-# Command to run the application
-CMD ["python", "app.py"]
+# Build the Go app (the output binary is called "myapp")
+RUN go build -o myapp
+
+# Stage 2: Create a lightweight image for running the application
+FROM alpine:latest
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the binary from the builder stage
+COPY --from=builder /app/myapp .
+
+# Expose the port the app runs on
+EXPOSE 8080
+
+# Command to run the Go app
+CMD ["./myapp"]
+```
+
+## 3. **Golang Application Dockerfile** 
+```dockerfile
+# Stage 1: Build the Go application
+FROM golang:1.19-alpine AS builder
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the go.mod and go.sum files first (for dependency caching)
+COPY go.mod go.sum ./
+
+# Download dependencies
+RUN go mod download
+
+# Copy the entire application to the container
+COPY . .
+
+# Build the Go app (the output binary is called "myapp")
+RUN go build -o myapp
+
+# Stage 2: Create a lightweight image for running the application
+FROM alpine:latest
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the binary from the builder stage
+COPY --from=builder /app/myapp .
+
+# Expose the port the app runs on
+EXPOSE 8080
+
+# Command to run the Go app
+CMD ["./myapp"]
+```
 
 📝 **Created by ducanhduocdochu**

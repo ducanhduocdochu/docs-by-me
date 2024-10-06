@@ -2,6 +2,10 @@
 
 CI/CD (Continuous Integration và Continuous Deployment/Delivery) là một phương pháp luận tự động hóa các giai đoạn tích hợp, kiểm thử và triển khai trong phát triển phần mềm, giúp tăng tốc độ và độ tin cậy khi cung cấp các bản cập nhật. Tài liệu này giải thích các khái niệm chính, thực tiễn, công cụ và lợi ích của CI/CD kèm theo các ví dụ minh họa.
 
+<p align="center">
+  <img src="https://github.com/ducanhduocdochu/docs-by-me/blob/main/CICD/overview.jpg" alt="overview" width="500"/>
+</p>
+
 ---
 
 ## 1. 🛠️ Continuous Integration (CI)
@@ -73,6 +77,10 @@ CI/CD (Continuous Integration và Continuous Deployment/Delivery) là một phư
 ---
 
 ## 4. 🏗️ Các Giai Đoạn của CI/CD Pipeline
+
+<p align="center">
+  <img src="https://github.com/ducanhduocdochu/docs-by-me/blob/main/CICD/cicdpipeline.jpg" alt="overview" width="500"/>
+</p>
 
 Một pipeline CI/CD điển hình bao gồm các giai đoạn sau:
 
@@ -169,8 +177,26 @@ Một pipeline CI/CD điển hình bao gồm các giai đoạn sau:
 
 ---
 
+CI/CD giúp tăng tốc độ, an toàn và độ tin cậy của các bản phát hành phần mềm bằng cách tự động hóa các quy trình chính và cung cấp phản hồi liên tục. Đây là nền tảng quan trọng của các chiến lược DevOps hiện đại.
+
 ---
 
-CI/CD giúp tăng tốc độ, an toàn và độ tin cậy của các bản phát hành phần mềm bằng cách tự động hóa các quy trình chính và cung cấp phản hồi liên tục. Đây là nền tảng quan trọng của các chiến lược DevOps hiện đại.
+## 🌟 Ví dụ Minh Họa Thực Tế
+Để hiểu rõ hơn về CI/CD, hãy xem xét một ví dụ thực tế về cách một ứng dụng web có thể triển khai CI/CD:
+
+Phát Triển Mã Nguồn: Lập trình viên làm việc trên tính năng mới của ứng dụng web và commit mã lên nhánh feature/new-feature trên GitHub.
+
+CI Pipeline Kích Hoạt: Khi mã được đẩy lên nhánh, Jenkins tự động bắt đầu pipeline:
+
+Build: Jenkins biên dịch mã nguồn và tạo Docker image.
+Test: Chạy các bài kiểm thử đơn vị và kiểm thử tích hợp.
+Deploy to Staging: Nếu tất cả các kiểm thử vượt qua, Jenkins triển khai ứng dụng lên môi trường staging trên Kubernetes.
+Kiểm Tra và Phê Duyệt: Nhóm QA kiểm tra tính năng mới trên môi trường staging. Nếu mọi thứ ổn, quản lý dự án phê duyệt triển khai lên sản xuất.
+
+vContinuous Deployment: Với phê duyệt, pipeline tự động triển khai Docker image mới lên môi trường sản xuất. Prometheus và Grafana giám sát hiệu suất và sức khỏe của ứng dụng.
+
+Phản Hồi và Cải Thiện: Nếu có vấn đề phát sinh sau triển khai, hệ thống giám sát sẽ phát hiện và tự động rollback về phiên bản ổn định trước đó, đồng thời gửi thông báo tới nhóm phát triển để khắc phục.
+
+---
 
 📝 **Created by ducanhduocdochu**

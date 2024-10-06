@@ -135,4 +135,6 @@ public class Main {
 
 The Singleton pattern is a useful design pattern when you need to ensure that only one instance of a class exists during the lifecycle of an application, helping manage resources more efficiently and improve performance. However, you should use it carefully, especially in multi-threaded systems, to avoid issues related to thread-safety.
 
+---
+
 📝 **Created by ducanhduocdochu**

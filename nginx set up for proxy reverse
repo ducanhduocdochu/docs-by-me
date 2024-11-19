@@ -1,6 +1,6 @@
 server {
     listen 80;
-    server_name jenkins.elroydevops.tech;
+    server_name jenkins.ducanh.test;
 
     location / {
         proxy_pass http://localhost:8080;  # Proxy đến Jenkins trên cổng 8080
